@@ -2,6 +2,13 @@ var successes = 0;
 var totalRolled = 0;
 const allResults = [];
 
+var tenCount = 0;
+var nineCount = 0;
+var eightCount = 0;
+var sevenCount = 0;
+
+
+
 function rollDice() {
 	return Math.floor(Math.random() * 10) + 1;
 }
@@ -146,11 +153,17 @@ function failOne(){
 	
 }
 
+function urgeCheck(){
+	var urgeCheck = document.getElementById('urge');
+	if (urgeCheck.checked == true){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 function diceProcessing(result){
-	var tenCount = 0;
-	var nineCount = 0;
-	var eightCount = 0;
-	var sevenCount = 0;
+	
 	
 	 if (result == 10 && doubleTens() == true && failTens() == false){
 		 successes = (successes + 2);
@@ -162,6 +175,7 @@ function diceProcessing(result){
 		 successes = (successes + 2);
 		 totalRolled = (totalRolled + 1);
 		 allResults.push("10");
+		 tenCount = (tenCount + 1)
 		 diceProcessing(rollDice());
 		 
 	 }	else if  (result == 10 && doubleTens() == false && failTens() == false){
@@ -169,7 +183,13 @@ function diceProcessing(result){
 		 totalRolled = (totalRolled + 1);
 		 allResults.push("10");
 		 tenCount = (tenCount + 1)
-	 }
+	 }	else if  (result == 10 && doubleTens() == false && failTens() == true){
+		 successes = (successes + 1);
+		 totalRolled = (totalRolled + 1);
+		 allResults.push("10");
+		 tenCount = (tenCount + 1)
+		 diceProcessing(rollDice());
+		 }
 	 
 	 else if (result == 9 && doubleNines() == true && failNines() == false){
 		 successes = (successes + 2);
@@ -188,7 +208,13 @@ function diceProcessing(result){
 		 totalRolled = (totalRolled + 1);
 		 nineCount = (nineCount + 1)
 		 allResults.push("9");
-	 }
+	 }	else if  (result == 9 && doubleNines() == false && failNines() == true){
+		 successes = (successes + 1);
+		 totalRolled = (totalRolled + 1);
+		 allResults.push("9");
+		 nineCount = (nineCount + 1)
+		 diceProcessing(rollDice());
+		 }
 	
 	 else if (result == 8 && doubleEights() == true && failEights() == false){
 		 successes = (successes + 2);
@@ -207,7 +233,13 @@ function diceProcessing(result){
 		 totalRolled = (totalRolled + 1);
 		 eightCount = (eightCount + 1)
 		 allResults.push("8");
-	 }
+	 }	else if  (result == 8 && doubleEights() == false && failEights() == true){
+		 successes = (successes + 1);
+		 totalRolled = (totalRolled + 1);
+		 allResults.push("8");
+		 eightCount = (eightCount + 1)
+		 diceProcessing(rollDice());
+		 }
 	 
 	 else if (result == 7 && doubleSevens() == true && failSevens() == false){
 		 successes = (successes + 2);
@@ -226,7 +258,13 @@ function diceProcessing(result){
 		 totalRolled = (totalRolled + 1);
 		 sevenCount = (sevenCount + 1)
 		 allResults.push("7");
-	 }
+	 }	else if  (result == 7 && doubleSevens() == false && failSevens() == true){
+		 successes = (successes + 1);
+		 totalRolled = (totalRolled + 1);
+		 allResults.push("7");
+		 sevenCount = (sevenCount + 1)
+		 diceProcessing(rollDice());
+		 }
 	 
 	 else if (result == 6 && failSix() == false){
 		 totalRolled = (totalRolled + 1);
@@ -291,14 +329,82 @@ function diceProcessing(result){
 
 function demiurge(){
 	
+	allResults.sort(function(a, b){return a - b});
+	var lowestResult = allResults[(allResults.length-1)]
+	
+	
+	if (urgeCheck() == true){
+		if (tenCount >= 3){
+			allResults.pop();
+			allResults.push("10");
+			tenCount = (tenCount+1)
+			tenCount = tenCount-3;
+			if (doubleTens() == true){
+				successes = (successes + 2);
+			}else {
+				successes = (successes +1);
+			}
+			diceProcessing(rollDice());
+			demiurge();
+		}
+		if (nineCount >= 3){
+			allResults.pop();
+			allResults.push("10");
+			tenCount = (tenCount+1)
+			nineCount = nineCount-3;
+			if (doubleTens() == true){
+				successes = (successes + 2);
+			}else {
+				successes = (successes +1);
+			}
+			
+			demiurge();
+		}
+		if (eightCount >= 3){
+			allResults.pop();
+			allResults.push("10");
+			tenCount = (tenCount+1)
+			eightCount = eightCount-3;
+			if (doubleTens() == true){
+				successes = (successes + 2);
+			}else {
+				successes = (successes +1);
+			}
+			diceProcessing(rollDice());
+			demiurge();
+		}
+		if (sevenCount >= 3){
+			allResults.pop();
+			allResults.push("10");
+			tenCount = (tenCount+1)
+			sevenCount = sevenCount-3;
+			if (doubleTens() == true){
+				successes = (successes + 2);
+			}else {
+				successes = (successes +1);
+			}
+			diceProcessing(rollDice());
+			demiurge();
+		}
+	}else{
+		
+	}
+	
 }
+
 
 function beginRolls(){
 	var dice = document.getElementById('diceAmount').value;
+	
 	var i = 0;
+	
 	successes = 0;
 	allResults.length = 0
 	totalRolled = 0;
+	tenCount = 0;
+	nineCount = 0;
+	eightCount = 0;
+	sevenCount = 0;
 	
 	
 	while (i < dice){
@@ -307,8 +413,12 @@ function beginRolls(){
 		i++
 	}
 	
+	demiurge();
+	
+	allResults.sort(function(a, b){return b - a});
 	document.getElementById('successCount').value = successes;
 	document.getElementById('results').value = allResults;
+	document.getElementById('totalRolls').value = totalRolled;
 	
 	
 }
