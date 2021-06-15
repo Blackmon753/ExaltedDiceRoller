@@ -12,7 +12,9 @@ var sevenCount = 0;
 function rollDice() {
 	return Math.floor(Math.random() * 10) + 1;
 }
-
+ 
+ 
+ //Just a bunch of functions to check what rules are in place.\/\/\/\/\/ 
 function doubleTens(){
 	var doubleTens = document.getElementById("doubleTens"); 
 	if (doubleTens.checked == true){
@@ -163,7 +165,7 @@ function urgeCheck(){
 }
 
 function diceProcessing(result){
-	
+	//Ugly as sin but it works.  If anything gets prettified later it will be this section.  6 and lower do not have double options since that's not a possibilty as far as I'm aware.  
 	
 	 if (result == 10 && doubleTens() == true && failTens() == false){
 		 successes = (successes + 2);
@@ -174,7 +176,7 @@ function diceProcessing(result){
 	 }	 else if (result == 10 && doubleTens() == true && failTens() == true){
 		 successes = (successes + 2);
 		 totalRolled = (totalRolled + 1);
-		 allResults.push("10");
+		 allResults.push("10");  //Even if they are rolled until they fail to appear they still count for the purposes of Demiurge so it's important to keep this in.  
 		 tenCount = (tenCount + 1)
 		 diceProcessing(rollDice());
 		 
@@ -186,7 +188,7 @@ function diceProcessing(result){
 	 }	else if  (result == 10 && doubleTens() == false && failTens() == true){
 		 successes = (successes + 1);
 		 totalRolled = (totalRolled + 1);
-		 allResults.push("10");
+		 allResults.push("10");  
 		 tenCount = (tenCount + 1)
 		 diceProcessing(rollDice());
 		 }
@@ -329,24 +331,27 @@ function diceProcessing(result){
 
 function demiurge(){
 	
-	allResults.sort(function(a, b){return a - b});
-	var lowestResult = allResults[(allResults.length-1)]
+	allResults.sort(function(a, b){return a - b}); //Sorts by ascending order so the pop/push commands remove the lowest result and then place a new 10 in.
 	
 	
+	//I did this shit at like 2 am.  I doubt that popping and then pushing is the optimal way to go about this but it does what I want.
 	if (urgeCheck() == true){
+		
 		if (tenCount >= 3){
 			allResults.pop();
 			allResults.push("10");
 			tenCount = (tenCount+1)
 			tenCount = tenCount-3;
-			if (doubleTens() == true){
+			if (doubleTens() == true){  //doubleTens will almost always be checked but there are situations where it might not be.  
 				successes = (successes + 2);
 			}else {
 				successes = (successes +1);
 			}
+			
 			diceProcessing(rollDice());
 			demiurge();
 		}
+		
 		if (nineCount >= 3){
 			allResults.pop();
 			allResults.push("10");
@@ -357,9 +362,10 @@ function demiurge(){
 			}else {
 				successes = (successes +1);
 			}
-			
+			diceProcessing(rollDice());
 			demiurge();
 		}
+		
 		if (eightCount >= 3){
 			allResults.pop();
 			allResults.push("10");
@@ -370,9 +376,11 @@ function demiurge(){
 			}else {
 				successes = (successes +1);
 			}
+			
 			diceProcessing(rollDice());
 			demiurge();
 		}
+		
 		if (sevenCount >= 3){
 			allResults.pop();
 			allResults.push("10");
@@ -383,9 +391,11 @@ function demiurge(){
 			}else {
 				successes = (successes +1);
 			}
+			
 			diceProcessing(rollDice());
 			demiurge();
 		}
+		
 	}else{
 		
 	}
@@ -395,31 +405,28 @@ function demiurge(){
 
 function beginRolls(){
 	var dice = document.getElementById('diceAmount').value;
-	
 	var i = 0;
 	
 	successes = 0;
 	allResults.length = 0
 	totalRolled = 0;
-	tenCount = 0;
+	tenCount = 0;		//Resets all the global variables everytime the button is pressed.
 	nineCount = 0;
 	eightCount = 0;
 	sevenCount = 0;
-	
-	
+		
 	while (i < dice){
 		var x = rollDice()
 		diceProcessing(x)
 		i++
 	}
+		
+	demiurge();    //I should just do an urge check here instead of calling the demiurge function everytime.  
 	
-	demiurge();
-	
-	allResults.sort(function(a, b){return b - a});
+	allResults.sort(function(a, b){return b - a});		//resorts the array of results to descending order for displaying. 
 	document.getElementById('successCount').value = successes;
 	document.getElementById('results').value = allResults;
 	document.getElementById('totalRolls').value = totalRolled;
-	
-	
+		
 }
 
