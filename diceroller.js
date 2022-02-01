@@ -334,7 +334,7 @@ function demiurge(){
 	allResults.sort(function(a, b){return a - b}); //Sorts by ascending order so the pop/push commands remove the lowest result and then place a new 10 in.
 	
 	
-	//I did this shit at like 2 am.  I doubt that popping and then pushing is the optimal way to go about this but it does what I want.
+	//I did this at like 2 am. Could probably done in a prettier way but for this basic function it will do for now. 
 	if (urgeCheck() == true){
 		
 		if (tenCount >= 3){
