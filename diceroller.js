@@ -165,7 +165,7 @@ function urgeCheck(){
 }
 
 function diceProcessing(result){
-	//Ugly as sin but it works.  If anything gets prettified later it will be this section.  6 and lower do not have double options since that's not a possibilty as far as I'm aware.  
+	//Ugly as sin but it works.  Should convert this to a switch statement for easier readability.  6 and lower do not have double options since that's not a possibilty as far as I'm aware.  
 	
 	 if (result == 10 && doubleTens() == true && failTens() == false){
 		 successes = (successes + 2);
