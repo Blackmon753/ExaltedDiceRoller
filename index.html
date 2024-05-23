@@ -81,15 +81,10 @@
 
   <input type="checkbox" id="failOne" name="f1" value="1">
   <label for="failOne"> 1's</label><br><br>
-	<button type="button" class="collapsible">Dice Tricks</button>
 
-			<div class="content">
-			  <p>First Movement of the Demiurge</p>
-			  <input type="checkbox" id="urge" name="demiurge" >
-			  <label for="urge">Yes</label><br><br>
+	<p>First Movement of the Demiurge
+	<input type="checkbox" id="urge" name="demiurge" ></p>
 
-
-			  </div>
   <input type = "button" onclick = "beginRolls()" value = "Roll"><br><br>
 
   <label for="successCount">Successes:</label><br>
@@ -98,28 +93,11 @@
   <label for="totalRolls">Total Dice Rolled</label><br>
   <textarea id="totalRolls" name="totalRolls"> </textarea><br><br><br>
 
-
   <label for="results">All Results:</label><br>
   <textarea id="results" name="results" rows="10" columns="10"> All dice rolled will be displayed here even if they are rerolled.</textarea>
 
 
 </form>
-<script>
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
-  });
-}
-</script>
 
 
 </body>
